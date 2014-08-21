@@ -1,0 +1,27 @@
+<div class="topbar">
+	<h4 class="logo">GroupM7</h4>
+	<a class="action" ng-click="logout()">Logout</a>
+</div>
+<div class="row">
+	<div class="large-12 columns">
+		<ul class="order-list" ng-cloak>
+			<li class="header">
+				<div class="item clearfix">
+					<h1>Lunch Orders</h1>
+				</div>
+			</li>
+			<li ng-repeat="order in orders" class="item" rand-class="colors">
+				<div class="item clearfix">
+					<div class="midrow clearfix">
+						<h4>{{order.location}}</h4>
+						<ul class="button-bar">
+							<li><a ng-click="loadOrderEdit(order)"><i class="fa fa-pencil-square-o"></i></a></li>
+							<li><a ng-click="loadOrderView(order)"><i class="fa fa-search"></i></a></li>
+						</ul>
+					</div>
+					<span class="date">{{order.date}}</span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -7,6 +7,7 @@
 <title>Foundation project</title>
 <!-- build:css css/libraries.min.css -->
 <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 <!-- bower:css -->
 <!-- endbower -->
 <!-- endbuild -->
@@ -26,7 +27,7 @@
 <!-- UI-Router -->
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 </head>
-<body ng-app="Lunch">
+<body ng-app="Lunch" ng-cloak>
 
     <ui-view />
 
@@ -38,6 +39,7 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/angular-local-store/angular-local-store.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js js/vendor/foundation.min.js -->

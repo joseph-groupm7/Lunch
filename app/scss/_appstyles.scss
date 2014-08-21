@@ -1,1 +1,135 @@
 /* all app scss styles here */
+$list-bg: #565656;
+
+body {
+	background-color: #DDD;
+	height: 100%;
+}
+
+.login-panel {
+	width: 500px;
+	margin: auto;
+	height: 100%;
+	background-color: $list-bg;
+	display: table;
+
+	.vert-center {
+		display: table-cell;
+		vertical-align: middle;
+	}
+
+	* {
+		color: #FFF;
+	}
+}
+
+
+.topbar {
+	height: 40px;
+	background-color: #333;
+	margin: 0;
+	width: 100%;
+	padding: 8px 16px;
+
+	.logo {
+		float: left;
+		color: #FFF;
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		line-height: 25px;
+	}
+
+	.action {
+		float: right;
+		color: #FFF;
+		font-size: 12px;
+		line-height: 25px;
+	}
+}
+
+.button-bar {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		float: right;
+
+		a {
+			font-size: 18px;
+			padding: 8px;
+		}
+	}
+	* {
+		color: #FFF;
+	}
+}
+
+.order-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: relative;
+
+	li {
+		position: relative;
+	}
+
+	li.item:after {
+		content: " ";
+		position: absolute;
+		width: 8px;
+		top: 0;
+		right: 0;
+		height: 100%;
+	}
+
+	$colors: ("red" #e74c3c) ("blue" #3498db) ("yellow" #f1c40f) ("purple" #9b59b6) ("orange" #e67e22) ("green" #2ecc71);
+	@each $pair in $colors {
+		$class: nth($pair, 1);
+		$color: nth($pair, 2);
+
+		li.#{$class}.item {
+			&:after {
+				background-color: $color;
+			}
+			
+			a:hover {
+				* {
+					color: $color;
+				}
+			}
+		}
+	}
+
+	li div.midrow {
+		margin-top: 18px;
+	}
+
+	li > div.item {
+		display: block;
+		padding: 8px 24px;
+		background-color: $list-bg;
+		border-bottom: 1px solid darken($list-bg, 2.5%);
+		position: relative;
+
+		h4 {
+			font-size: 28px;
+			font-weight: bold;
+			line-height: 18px;
+			float: left;
+		}
+
+		.date {
+			font-weight: light;
+			font-size: 12px;
+			float: left;
+			line-height: 18px;
+		}
+
+		h1, h2, h3, h4, .date {
+			color: #FFF;
+		}
+	}
+}

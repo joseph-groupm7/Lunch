@@ -1,0 +1,29 @@
+<div class="topbar">
+	<h4 class="logo">GroupM7</h4>
+	<a class="action" ui-sref="lunch.home">Go Back</a>
+</div>
+<div class="panel">
+	<div class="row">
+		<div class="large-12 columns">
+			<h2>New Order</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-6 columns">
+			<label>Location
+				<input type="text" ng-model="details.location">
+			</label>
+		</div>
+		<div class="large-6 columns">
+			<label>Menu Link
+				<input type="text" ng-model="details.href">
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns text-right">
+			<a class="button tiny" ng-click="create()">Create Order</a>
+			<a ui-sref="lunch.home" class="button tiny alert">Cancel</a>
+		</div>
+	</div>
+</div>

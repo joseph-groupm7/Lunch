@@ -5061,11 +5061,32 @@ body {
   background-color: #DDD;
   height: 100%; }
 
+a.info {
+  color: #008CBA; }
+
+.info {
+  font-weight: bold; }
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+  padding-bottom: 240px;
+  z-index: 1; }
+  .container .content {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    overflow-y: scroll; }
+
 .login-panel {
   width: 500px;
   margin: auto;
   height: 100%;
-  background-color: #565656;
+  background-color: #444;
   display: table; }
   .login-panel .vert-center {
     display: table-cell;
@@ -5073,12 +5094,60 @@ body {
   .login-panel * {
     color: #FFF; }
 
+.edit-list {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  .edit-list li {
+    background-color: #444;
+    color: #FFF;
+    padding: 12px 18px;
+    position: relative; }
+  .edit-list li:after {
+    content: " ";
+    position: absolute;
+    width: 8px;
+    top: 0;
+    right: 0;
+    height: 100%; }
+  .edit-list li.red:after {
+    background-color: #e74c3c; }
+  .edit-list li.blue:after {
+    background-color: #3498db; }
+  .edit-list li.yellow:after {
+    background-color: #f1c40f; }
+  .edit-list li.purple:after {
+    background-color: #9b59b6; }
+  .edit-list li.orange:after {
+    background-color: #e67e22; }
+  .edit-list li.green:after {
+    background-color: #2ecc71; }
+  .edit-list .name {
+    font-weight: bold;
+    font-size: 18px;
+    color: #AAA; }
+  .edit-list .notes {
+    font-style: italic; }
+
+.order-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 240px;
+  width: 100%;
+  margin: 0;
+  z-index: 10; }
+  .order-panel textarea {
+    resize: none; }
+
 .topbar {
   height: 40px;
   background-color: #333;
   margin: 0;
   width: 100%;
-  padding: 8px 16px; }
+  padding: 8px 16px;
+  position: relative;
+  z-index: 10; }
   .topbar .logo {
     float: left;
     color: #FFF;
@@ -5090,7 +5159,8 @@ body {
     float: right;
     color: #FFF;
     font-size: 12px;
-    line-height: 25px; }
+    line-height: 25px;
+    margin-left: 32px; }
 
 .button-bar {
   list-style: none;
@@ -5147,8 +5217,8 @@ body {
   .order-list li > div.item {
     display: block;
     padding: 8px 24px;
-    background-color: #565656;
-    border-bottom: 1px solid #505050;
+    background-color: #444;
+    border-bottom: 1px solid #3e3e3e;
     position: relative; }
     .order-list li > div.item h4 {
       font-size: 28px;

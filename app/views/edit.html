@@ -1,2 +1,42 @@
-<input type="text" ng-model="edit.item" />
-<textarea ng-model="edit.notes"></textarea>
+<div class="topbar">
+	<h4 class="logo">GroupM7</h4>
+	<a class="action" ui-sref="lunch.home">Go Back</a>
+	<a ng-click="withdraw()" class="action">Withdraw from Order</a>
+</div>
+<div class="container">
+	<div class="content">
+		<div class="row">
+			<div class="large-12 columns">
+				<h2>{{order.location}}&nbsp;<small>Other Orders</small></h2>
+				<a class="info" href="{{order.href}}">Menu</a>&nbsp;|
+				<span class="date">{{order.date}}</span>&nbsp;|
+				Order started by <span class="info">{{order.admin}}</span>&nbsp;|
+				Order is currently <span class="info">{{!order.lockdown ? "Open" : "Closed"}}</span>
+			</div>
+		</div>
+		<hr />
+		<div class="row">
+			<div class="large-12 columns">
+				<ul class="edit-list">
+					<li ng-repeat="item in order.orders" rand-class="colors">
+						<div>
+							<div><span class="name">{{item.name}}</span>: {{item.item ? item.item : "(They're still thinking.)"}}</div>
+							<div class="notes">{{item.notes ? item.notes : "No special instructions."}}</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="panel order-panel" ng-if="!locked">
+	<div class="row">
+		<div class="large-12 columns">
+			<h2>My Order</h2>
+			<input type="text" ng-model="edit.item" />
+			<label>Notes
+				<textarea ng-model="edit.notes"></textarea>
+			</label>
+		</div>
+	</div>
+</div>

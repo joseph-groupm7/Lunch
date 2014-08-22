@@ -1,0 +1,18 @@
+<div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: #FFF; padding: 20px;">
+<div class="row">
+	<div class="large-12 columns">
+		<h4>{{order.location}}&nbsp;<small>{{order.date}}</small></h4>
+	</div>
+</div>
+<hr />
+<div class="row">
+	<div class="large-12 columns">
+		<ul>
+			<li ng-repeat="item in order.orders" ng-if="item.item">
+				{{item.name}}: <b>{{item.item}}</b><br />
+				<em ng-if="item.notes">{{item.notes}}</em>
+			</li>
+		</ul>
+	</div>
+</div>	
+</div>

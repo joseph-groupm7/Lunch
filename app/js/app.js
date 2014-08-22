@@ -43,6 +43,14 @@ lunch.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $
 			data: {
 				access: "login"
 			}
+		})
+		.state("lunch.new", {
+			url: "/new",
+			templateUrl: "/views/new.html",
+			controller: "newController",
+			data: {
+				access: "login"
+			}
 		});
 }]);
 
@@ -125,27 +133,42 @@ lunch.controller("listController", [
 	"Authentication",
 	"$state",
 	"$firebase",
-	function($scope, Authentication, $state, $firebase) {
+	"$q",
+	function($scope, Authentication, $state, $firebase, $q) {
 
-	$scope.colors = ["red", "blue", "yellow", "purple", "orange", "green"];
+	var load = $q.defer();
 
-	var ref  = new Firebase("https://lunch-gm7.firebaseio.com/");
-	var sync = $firebase(ref);
+	load.promise.then(function() {
+		$scope.colors = ["red", "blue", "yellow", "purple", "orange", "green"];
 
-	$scope.orders = sync.$asObject();
+		var ref  = new Firebase("https://lunch-gm7.firebaseio.com/");
+		var sync = $firebase(ref);
 
-	$scope.loadOrderEdit = function(order) {
-		$state.go("lunch.editOrder", {id: order.id});
-	}
+		$scope.orders = sync.$asObject();
 
-	$scope.loadOrderView = function(order) {
-		$state.go("lunch.viewOrder", {id: order.id});
-	}
+		$scope.loadOrderEdit = function(order) {
+			$state.go("lunch.editOrder", {id: order.id});
+		}
 
-	$scope.logout = function() {
-		Authentication.logout();
-		$state.go("login");
-	}
+		$scope.loadOrderView = function(order) {
+			$state.go("lunch.viewOrder", {id: order.id});
+		}
+
+		$scope.logout = function() {
+			Authentication.logout();
+			$state.go("login");
+		}
+	});
+
+	Authentication.checkSessionLogin().then(function() {
+		if (Authentication.loggedIn() != true) {
+			load.reject();
+			$state.go("login");
+		}
+		else {
+			load.resolve();
+		}
+	});
 }]);
 
 lunch.controller("editController", [
@@ -155,15 +178,23 @@ lunch.controller("editController", [
 	"$firebase",
 	"$stateParams",
 	"$q",
-	function($scope, Authentication, $state, $firebase, $stateParams, $q) {
+	"$timeout",
+	function($scope, Authentication, $state, $firebase, $stateParams, $q, $timeout) {
+
+	$scope.colors = ["red", "blue", "yellow", "purple", "orange", "green"];
+	$scope.locked = false;
 
 	var load = $q.defer();
 	load.promise.then(function(edit) {
 		$scope.order = sync;
 		edit.$bindTo($scope, "edit");
 
-		console.log(edit);
-		console.log($scope.edit);
+		$scope.withdraw = function() {
+			if (confirm("Are you sure you want to withdraw from this order?")) {
+				delete $scope.edit;
+				$scope.locked = true;
+			}
+		}
 	});
 
 	var syncRef = new Firebase("https://lunch-gm7.firebaseio.com/" + $stateParams.id);
@@ -185,9 +216,6 @@ lunch.controller("editController", [
 			});
 		}
 	});
-
-	var editRef = new Firebase("https://lunch-gm7.firebaseio.com/" + $stateParams.id);
-	var edit    = $firebase(editRef).$asObject();
 }]);
 
 lunch.controller("viewController", [
@@ -195,12 +223,72 @@ lunch.controller("viewController", [
 	"$state",
 	"$firebase",
 	"$stateParams",
-	function($scope, $state, $firebase, $stateParams) {
+	"$q",
+	"Authentication",
+	function($scope, $state, $firebase, $stateParams, $q, Authentication) {
+
+	var load = $q.defer();
+	load.promise.then(function() {
+		$scope.order = sync;
+	});
 
 	var ref  = new Firebase("https://lunch-gm7.firebaseio.com/" + $stateParams.id);
-	var sync = $firebase(ref);
+	var sync = $firebase(ref).$asObject();
 
-	$scope.orderDetails = sync.$asObject();
+	$q.all(Authentication.checkSessionLogin(), sync.$loaded()).then(function() {
+		if (Authentication.loggedIn() != true) {
+			load.reject();
+			$state.go("login");
+		}
+		else {
+			load.resolve();
+		}
+	});
+}]);
+
+lunch.controller("newController", [
+	"$scope",
+	"$state",
+	"$firebase",
+	"$stateParams",
+	"$q",
+	"Authentication",
+	function($scope, $state, $firebase, $stateParams, $q, Authentication) {
+
+	var load = $q.defer();
+	load.promise.then(function() {
+		$scope.details = {};
+
+		$scope.create = function() {
+			var now = new Date();
+			var id = now.getFullYear() + "" + (now.getMonth() + 1) + "" + now.getDate() + "" + (now.getHours() + 1) + "" + (now.getMinutes() + 1) + "" + (now.getSeconds() + 1);
+			var ref  = new Firebase("https://lunch-gm7.firebaseio.com/" + id);
+			var sync = $firebase(ref).$asObject();
+
+			sync.$loaded().then(function() {
+				sync.id = id;
+				sync.date = now.toISOString();
+				sync.location = $scope.details.location;
+				sync.href = $scope.details.href;
+				sync.lockdown = false;
+				sync.admin = Authentication.getSession().email;
+
+				sync.$save().then(function() {
+					$state.go("lunch.home");
+				});
+			});
+		}
+	});
+
+	Authentication.checkSessionLogin().then(function() {
+		if (Authentication.loggedIn() != true) {
+			load.reject();
+			$state.go("login");
+		}
+		else {
+			load.resolve();
+		}
+	});
 }]);
 
 lunch.directive("randClass", function () {
@@ -227,14 +315,14 @@ lunch.directive("randClass", function () {
 		* Load the ID from Firebase 				DONE
 		* Bind the model 							DONE
 		* Make the user's ID editable 				DONE
-		* Pretty
+		* Pretty 									DONE
 	/view/:id
-		* Load the ID
-		* Bind the model
-		* DON'T make the sections editable
+		* Load the ID 								DONE
+		* Bind the model 							DONE
+		* DON'T make the sections editable 			DONE
 	/new
-		* Set the model's creator ID
-		* Assigne a unique ID
+		* Set the model's creator ID 				DONE
+		* Assigne a unique ID 						DONE
 		
 	Model:
 		Database

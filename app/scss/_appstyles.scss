@@ -1,9 +1,36 @@
 /* all app scss styles here */
-$list-bg: #565656;
+$list-bg: #444;
+$colors: ("red" #e74c3c) ("blue" #3498db) ("yellow" #f1c40f) ("purple" #9b59b6) ("orange" #e67e22) ("green" #2ecc71);
 
 body {
 	background-color: #DDD;
 	height: 100%;
+}
+
+a.info {
+	color: #008CBA;
+}
+
+.info {
+	font-weight: bold;
+}
+
+.container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding-top: 40px;
+	padding-bottom: 240px;
+	z-index: 1;
+
+	.content {
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+		overflow-y: scroll;
+	}
 }
 
 .login-panel {
@@ -23,6 +50,62 @@ body {
 	}
 }
 
+.edit-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		background-color: $list-bg;
+		color: #FFF;
+		padding: 12px 18px;
+		position: relative;
+	}
+
+	li:after {
+		content: " ";
+		position: absolute;
+		width: 8px;
+		top: 0;
+		right: 0;
+		height: 100%;
+	}
+
+	@each $pair in $colors {
+		$class: nth($pair, 1);
+		$color: nth($pair, 2);
+
+		li.#{$class} {
+			&:after {
+				background-color: $color;
+			}
+		}
+	}
+
+	.name {
+		font-weight: bold;
+		font-size: 18px;
+		color: #AAA;
+	}
+
+	.notes {
+		font-style: italic;
+	}
+}
+
+.order-panel {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 240px;
+	width: 100%;
+	margin: 0;
+	z-index: 10;
+
+	textarea {
+		resize: none;
+	}
+}
 
 .topbar {
 	height: 40px;
@@ -30,6 +113,8 @@ body {
 	margin: 0;
 	width: 100%;
 	padding: 8px 16px;
+	position: relative;
+	z-index: 10;
 
 	.logo {
 		float: left;
@@ -45,6 +130,7 @@ body {
 		color: #FFF;
 		font-size: 12px;
 		line-height: 25px;
+		margin-left: 32px;
 	}
 }
 
@@ -85,7 +171,6 @@ body {
 		height: 100%;
 	}
 
-	$colors: ("red" #e74c3c) ("blue" #3498db) ("yellow" #f1c40f) ("purple" #9b59b6) ("orange" #e67e22) ("green" #2ecc71);
 	@each $pair in $colors {
 		$class: nth($pair, 1);
 		$color: nth($pair, 2);
